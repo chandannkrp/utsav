@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Points back to the parent we just created -->
+    <parent>
+        <groupId>dev.utsav</groupId>
+        <artifactId>utsav-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>utsav-domain</artifactId>
+    <name>Utsav :: Domain</name>
+    <description>Core business model. Pure Java, zero framework dependencies.</description>
+
+    <!--
+        No <dependencies> block at all (beyond the test libs inherited
+        from the parent). This emptiness is the entire point.
+
+        If you ever feel the urge to add Spring or JPA here, stop —
+        that's the architecture telling you the code belongs in
+        infrastructure instead.
+    -->
+</project>

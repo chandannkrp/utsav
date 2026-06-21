@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>dev.utsav</groupId>
+        <artifactId>utsav-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>utsav-api</artifactId>
+    <name>Utsav :: API</name>
+    <description>REST controllers, Spring Boot entry point, web configuration.</description>
+
+    <dependencies>
+        <!-- Wires the inner layers together -->
+        <dependency>
+            <groupId>dev.utsav</groupId>
+            <artifactId>utsav-application</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.utsav</groupId>
+            <artifactId>utsav-infrastructure</artifactId>
+        </dependency>
+
+        <!-- Web + validation live at the edge -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--
+                ONLY the api module builds the executable fat JAR.
+                This is the plugin we removed from the parent.
+            -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -26,6 +26,7 @@ public class Event {
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    // constructor for creating a new event
     public Event(
             String title,
             String description,
@@ -76,6 +77,41 @@ public class Event {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
     }
+
+    // constructor for reconstituting from persistence
+    public Event(
+            UUID id,
+            String title,
+            String description,
+            EventCategory category,
+            String venueName,
+            String city,
+            LocalDateTime startTime,
+            LocalDateTime endTime,
+            int totalSeats,
+            int availableSeats,
+            long priceInPaise,
+            EventStatus status,
+            UUID organizerId,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.category = category;
+        this.venueName = venueName;
+        this.city = city;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.totalSeats = totalSeats;
+        this.availableSeats = availableSeats;
+        this.priceInPaise = priceInPaise;
+        this.status = status;
+        this.organizerId = organizerId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
 
     public void publish() {
         requireTransitionAllowed(EventStatus.PUBLISHED);

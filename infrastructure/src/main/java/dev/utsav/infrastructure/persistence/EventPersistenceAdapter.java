@@ -2,6 +2,7 @@ package dev.utsav.infrastructure.persistence;
 
 import dev.utsav.domain.model.Event;
 import dev.utsav.domain.port.EventRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -20,7 +21,9 @@ public class EventPersistenceAdapter implements EventRepository {
 
     @Override
     public Event save(Event event) {
+        System.out.println(">>> event id : " + event.getOrganizerId());
         EventJpaEntity entity = EventMapper.toEntity(event);
+        System.out.println(">>> event id : " + event.getOrganizerId());
         EventJpaEntity saved = repository.save(entity);
         return EventMapper.toDomain(saved);
     }
@@ -33,7 +36,8 @@ public class EventPersistenceAdapter implements EventRepository {
 
     @Override
     public List<Event> findUpcomingEventsByCity(String city, int limit) {
-        return repository.findUpcomingByCity(city, LocalDateTime.now(), limit)
+        return repository.findUpcomingByCity(city, LocalDateTime.now(),
+                        PageRequest.of(0, limit))
                 .stream()
                 .map(EventMapper::toDomain)                    // each entity → domain
                 .toList();

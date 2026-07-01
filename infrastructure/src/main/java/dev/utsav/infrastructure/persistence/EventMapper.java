@@ -24,9 +24,9 @@ public final class EventMapper {
         entity.setAvailableSeats(event.getAvailableSeats());
         entity.setPriceInPaise(event.getPriceInPaise());
         entity.setStatus(event.getStatus().name());
-        entity.setOrganizerId(event.getOrganizerId());
         entity.setCreatedAt(event.getCreatedAt());
         entity.setUpdatedAt(event.getUpdatedAt());
+        entity.setOrganizerId(event.getOrganizerId());
         return entity;
     }
 
@@ -44,9 +44,9 @@ public final class EventMapper {
                 entity.getAvailableSeats(),
                 entity.getPriceInPaise(),
                 EventStatus.valueOf(entity.getStatus()),
-                entity.getOrganizerId(),
                 entity.getCreatedAt(),
-                entity.getUpdatedAt()
-        );
+                entity.getUpdatedAt(),
+                entity.getOrganizerId()
+                );
     }
 }

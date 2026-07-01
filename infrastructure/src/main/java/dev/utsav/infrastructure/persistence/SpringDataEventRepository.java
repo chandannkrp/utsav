@@ -1,5 +1,6 @@
 package dev.utsav.infrastructure.persistence;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,12 +17,11 @@ public interface SpringDataEventRepository extends JpaRepository<EventJpaEntity,
             AND e.status = 'PUBLISHED'
             AND e.startTime > :now
             ORDER BY e.startTime ASC
-            LIMIT :limit
             """
     )
     List<EventJpaEntity> findUpcomingByCity(@Param("city") String city,
                                             @Param("now") LocalDateTime now,
-                                            @Param("limit") int limit);
+                                            Pageable pageable);
 
 
 }

@@ -76,6 +76,7 @@ public class Event {
         this.status = EventStatus.DRAFT;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
+        this.organizerId = organizerId;
     }
 
     // constructor for reconstituting from persistence
@@ -92,9 +93,10 @@ public class Event {
             int availableSeats,
             long priceInPaise,
             EventStatus status,
-            UUID organizerId,
             LocalDateTime createdAt,
-            LocalDateTime updatedAt) {
+            LocalDateTime updatedAt,
+            UUID organizerId
+            ) {
         this.id = id;
         this.title = title;
         this.description = description;

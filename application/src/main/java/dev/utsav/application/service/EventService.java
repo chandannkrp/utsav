@@ -37,8 +37,8 @@ public class EventService implements EventUseCase {
     }
 
     @Override
-    public Optional<Event> getEvent(UUID eventId) {
-        return eventRepository.findById(eventId);
+    public Event getEvent(UUID eventId) {
+        return findOrThrow(eventId);
     }
 
     @Override

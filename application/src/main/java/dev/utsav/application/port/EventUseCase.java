@@ -5,7 +5,6 @@ import dev.utsav.application.dto.CreateEventCommand;
 import dev.utsav.domain.model.Event;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 //The Inbound port - what the application offers to the outside world. This is the interface that the application layer
@@ -17,7 +16,7 @@ public interface EventUseCase {
 
     Event createEvent(CreateEventCommand command);
 
-    Optional<Event> getEvent(UUID eventId);
+    Event getEvent(UUID eventId);
 
     List<Event> getUpcomingEvents(String city, int limit);
 

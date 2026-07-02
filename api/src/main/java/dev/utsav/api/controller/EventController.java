@@ -1,11 +1,13 @@
 package dev.utsav.api.controller;
 
 
+import dev.utsav.api.dto.CreateEventRequest;
 import dev.utsav.api.dto.EventResponse;
 import dev.utsav.application.dto.CreateEventCommand;
 import dev.utsav.application.port.EventUseCase;
 import dev.utsav.domain.exception.DomainException;
 import dev.utsav.domain.model.Event;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,29 +25,24 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<
-            EventResponse> createEvent(@RequestBody CreateEventCommand command) {
-        Event created = eventUseCase.createEvent(command);
-        return ResponseEntity.status(201).body(created);
+    public ResponseEntity<EventResponse> createEvent(@Valid @RequestBody CreateEventRequest request) {
+        Event created = eventUseCase.createEvent(request.toCommand());
+        return ResponseEntity.status(201).body(EventResponse.from(created));
     }
 
     @GetMapping("/{eventId}")
-    public ResponseEntity<Event> getEvent(@PathVariable UUID eventId) {
-        Event event = eventUseCase.getEvent(eventId)
-                .orElseThrow(() -> new DomainException(
-                        "EVENT_NOT_FOUND", "Event not found with id: " + eventId
-                ));
-
-        return ResponseEntity.ok(event);
+    public ResponseEntity<EventResponse> getEvent(@PathVariable UUID eventId) {
+        Event event = eventUseCase.getEvent(eventId);
+        return ResponseEntity.ok(EventResponse.from(event));
     }
 
     @GetMapping
-    public ResponseEntity<List<Event>> getUpcoming(
+    public ResponseEntity<List<EventResponse>> getUpcoming(
             @RequestParam String city,
             @RequestParam(defaultValue = "20") int limit
     ) {
         List<Event> events = eventUseCase.getUpcomingEvents(city, limit);
-        return ResponseEntity.ok(events);
+        return ResponseEntity.ok(events.stream().map(EventResponse::from).toList());
     }
 
     @PutMapping("/{eventId}/publish")

@@ -1,0 +1,1 @@
+CREATE INDEX idx_events_city_status_start_time ON events(city, status, start_time);

@@ -4,6 +4,7 @@ package dev.utsav.api.error;
 import dev.utsav.domain.exception.DomainException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.accept.InvalidApiVersionException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -20,11 +21,24 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleUnexpected(Exception ex) {
+        System.out.println("Unexpected error: " + ex.getMessage());
+        System.out.println("Exception class " + ex.getClass().getName());
         ApiError error = ApiError.of(
                 "INTERNAL_ERROR",
                 "An unexpected error occurred",
                 HttpStatus.INTERNAL_SERVER_ERROR.value());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
+    @ExceptionHandler(InvalidApiVersionException.class)
+    public ResponseEntity<ApiError> handleInvalidApiVersion(InvalidApiVersionException ex){
+        ApiError error = ApiError.of(
+                "INVALID_API_VERSION",
+                "The requested API version is not supported",
+                HttpStatus.BAD_REQUEST.value()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

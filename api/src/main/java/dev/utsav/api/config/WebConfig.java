@@ -2,6 +2,7 @@ package dev.utsav.api.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ApiVersionConfigurer;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
@@ -14,4 +15,11 @@ public class WebConfig implements WebMvcConfigurer {
                 .usePathSegment(1)
                 .setDefaultVersion("1");
     }
+
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry){
+        registry.addInterceptor(new LoggingInterceptor());
+    }
+
 }

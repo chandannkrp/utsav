@@ -8,7 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +22,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase.Replace.NONE;
 
 /**
  * Integration test for EventPersistenceAdapter against a real (H2) database.
@@ -29,9 +36,23 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @Import(EventPersistenceAdapter.class) — @DataJpaTest does NOT scan
  * general @Component beans, so we pull our adapter into the slice explicitly.
  */
+
+@Testcontainers
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = NONE)
 @Import(EventPersistenceAdapter.class)
 class EventPersistenceAdapterTest {
+
+    @Container
+    static PostgreSQLContainer postgres =
+            new PostgreSQLContainer("postgres:16-alpine");
+
+    @DynamicPropertySource
+    static void datasourceProps(DynamicPropertyRegistry registry){
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.username", postgres::getUsername);
+        registry.add("spring.datasource.password", postgres::getPassword);
+    }
 
     @Autowired
     private EventPersistenceAdapter adapter;

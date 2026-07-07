@@ -3,6 +3,7 @@ package dev.utsav.api.config;
 
 import jakarta.servlet.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
 
@@ -14,4 +15,7 @@ public class LoggingFilter implements Filter {
         filterChain.doFilter(servletRequest, servletResponse);
         System.out.println("Outgoing response : "+ servletResponse.getContentType() + " " + servletResponse.getCharacterEncoding());
     }
+
 }
+
+

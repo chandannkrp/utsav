@@ -20,8 +20,7 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -109,6 +108,32 @@ public class EventControllerTest {
         )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("VALIDATION_ERROR"));
+
+    }
+
+    @Test
+    @DisplayName("GET /api/v1/events/{id} - should return the event details")
+    void getEvent_returns200() throws Exception{
+        Event event = sampleEvent();
+        when(eventUseCase.getEvent(event.getId())).thenReturn(event);
+
+        mockMvc.perform(
+                get("/api/v1/events/" + event.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Sample Event"))
+                .andExpect(jsonPath("$.category").value("CONCERT"));
+    }
+
+    @Test
+    @DisplayName("PUT /api/v1/{id}/publish - should publish the event and return 200")
+    void publishEvent_returns200() throws Exception{
+        Event event = sampleEvent();
+        when(eventUseCase.getEvent(event.getId())).thenReturn(event);
+
+        mockMvc.perform(
+                put("/api/v1/events/" + event.getId() + "/publish"))
+                .andExpect(status().isNoContent()
+        );
 
     }
 

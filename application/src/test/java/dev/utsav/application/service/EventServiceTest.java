@@ -7,10 +7,10 @@ import dev.utsav.domain.model.Event;
 import dev.utsav.domain.model.enums.EventCategory;
 import dev.utsav.domain.model.enums.EventStatus;
 import dev.utsav.domain.port.EventRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -30,8 +30,13 @@ public class EventServiceTest {
     @Mock
     private EventRepository eventRepository;
 
-    @InjectMocks
+
     private EventService eventService;
+
+    @BeforeEach
+    void setUp(){
+        eventService = new EventService(eventRepository, 20, 100);
+    }
 
     private CreateEventCommand validCommand(){
         return new CreateEventCommand(

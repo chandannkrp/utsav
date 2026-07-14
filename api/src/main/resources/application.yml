@@ -2,37 +2,23 @@ spring:
   application:
     name: utsav
 
-
-  # -- Database Configuration
-  datasource:
-    url: jdbc:h2:file:./data/utsav;DB_CLOSE_DELAY=-1
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-
-  # -- Hikari Connection Pool Configuration
-    hikari:
-      pool-name: UtsavHikariPool
-      maximum-pool-size: 10
-      minimum-idle: 5 # keeps 5 idle connections in the pool so a sudden request doesn't pay the open cost.
-      connection-timeout: 30000 # means a thread waits for 30 seconds to get a connection from the pool before throwing an exception.
-
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+  profiles:
+    default: dev
 
   jpa:
     hibernate:
       ddl-auto: validate
-#    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
+    open-in-view: false
+
+
+utsav:
+  events:
+    default-limit: 5
+    max-limit: 100
+
+
+server:
+  port: 8080
 
 
 
-#logging:
-#  level:
-#    com.zaxxer.hikari: DEBUG
-#    org.hibernate.SQL: DEBUG

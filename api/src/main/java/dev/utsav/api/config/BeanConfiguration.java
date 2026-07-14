@@ -17,7 +17,7 @@ public class BeanConfiguration {
 
      */
     @Bean
-    public EventUseCase eventUseCase(EventRepository eventRepository){
-        return new EventService(eventRepository);
+    public EventUseCase eventUseCase(EventRepository eventRepository, EventProperties eventProperties) {
+        return new EventService(eventRepository, eventProperties.defaultLimit(), eventProperties.maxLimit());
     }
 }

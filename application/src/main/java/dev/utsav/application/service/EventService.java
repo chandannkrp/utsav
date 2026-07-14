@@ -13,9 +13,13 @@ import java.util.UUID;
 public class EventService implements EventUseCase {
 
     private final EventRepository eventRepository;
+    private final int defaultLimt;
+    private final int maxLimit;
 
-    public EventService(EventRepository eventRepository) {
+    public EventService(EventRepository eventRepository, int defaultLimit, int maxLimit) {
         this.eventRepository = eventRepository;
+        this.defaultLimt = defaultLimit;
+        this.maxLimit = maxLimit;
     }
 
     @Override
@@ -43,6 +47,9 @@ public class EventService implements EventUseCase {
 
     @Override
     public List<Event> getUpcomingEvents(String city, int limit) {
+        if(limit <= 0 || limit > maxLimit){
+            limit = defaultLimt;
+        }
         return eventRepository.findUpcomingEventsByCity(city, limit);
     }
 

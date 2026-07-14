@@ -1,0 +1,6 @@
+2026-07-02 00:04:13.519755+05:30 jdbc[10]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]EVENTS"; expected "EXPLAIN, EXECUTE"; SQL statement:
+EVENTS [42001-240]
+2026-07-02 00:04:21.990602+05:30 jdbc[10]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]""flyway_schema_history"""; SQL statement:
+"flyway_schema_history" [42000-240]

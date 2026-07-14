@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${DB_URL:jdbc:postgresql://ep-still-rain-atz5p45t-pooler.c-9.us-east-1.aws.neon.tech/utsavDB?user=neondb_owner&password=npg_c8ByPXrAF7pU&sslmode=require&channelBinding=require}
-    username: ${DB_USERNAME:neondb_owner}
-    password: ${DB_PASSWORD:npg_c8ByPXrAF7pU}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
     hikari:
       pool-name: UtsavHikariPool-prod

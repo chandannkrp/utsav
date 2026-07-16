@@ -15,6 +15,11 @@ utsav:
   events:
     default-limit: 5
     max-limit: 100
+  security:
+    jwt:
+      secret: ${JWT_SECRET:ZHVtbXktZGV2LXNlY3JldC1rZXktYXQtbGVhc3QtMzItYnl0ZXMtbG9uZw==}
+      expiration-ms: 3600000  // 1 hour in milliseconds
+
 
 
 server:

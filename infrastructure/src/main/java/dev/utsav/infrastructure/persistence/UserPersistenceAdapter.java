@@ -2,10 +2,13 @@ package dev.utsav.infrastructure.persistence;
 
 import dev.utsav.domain.model.User;
 import dev.utsav.domain.port.UserRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.UUID;
 
+
+@Component
 public class UserPersistenceAdapter implements UserRepository {
 
     private final SpringDataUserRepository repository;

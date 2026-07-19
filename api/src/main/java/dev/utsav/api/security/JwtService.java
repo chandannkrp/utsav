@@ -20,7 +20,7 @@ public class JwtService {
     public JwtService(JwtProperties props){
         byte[] keyBytes = Base64.getDecoder().decode(props.secret());
         this.key = Keys.hmacShaKeyFor(keyBytes);
-        this.expirationMs = props.expriationMs();
+        this.expirationMs = props.expirationMs();
     }
 
     public String generateToken(User user){

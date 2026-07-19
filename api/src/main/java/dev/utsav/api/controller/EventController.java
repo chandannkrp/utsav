@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class EventController {
         this.eventUseCase = eventUseCase;
     }
 
+    @PreAuthorize("hasRole('ORGANIZER') or hasRole('ADMIN')")
     @Operation(summary = "Create a new event",
     description = "Create a new event with the provided details. The event will be created in a draft state.")
     @PostMapping(version = "1")
@@ -34,6 +36,7 @@ public class EventController {
         return ResponseEntity.status(201).body(EventResponse.from(created));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Get an event by ID",
     description = "DEPRECATED — use v2. v1 returns price as paise")
     @GetMapping(value = "/{eventId}", version = "1")
@@ -46,6 +49,7 @@ public class EventController {
                 .body(EventResponse.from(event));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Get an event by ID (v2)",
     description = "v2 : price is returned as a structured object with amount, currency and display fields")
     @GetMapping(value = "/{eventId}", version = "2")
@@ -54,6 +58,7 @@ public class EventController {
         return ResponseEntity.ok(EventResponseV2.from(event));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @Operation(summary = "List upcoming events in a city",
     description = "Returns a list of upcoming published events in the specified city, soonest first")
     @GetMapping(version = "1")
@@ -65,6 +70,7 @@ public class EventController {
         return ResponseEntity.ok(events.stream().map(EventResponse::from).toList());
     }
 
+    @PreAuthorize("hasRole('ORGANIZER') or hasRole('ADMIN')")
     @Operation(summary = "Publish an event",
     description = "Transitions the event from draft to published state. Makes the event bookable by users.")
     @PutMapping(value = "/{eventId}/publish", version = "1")
@@ -73,6 +79,7 @@ public class EventController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ORGANIZER') or hasRole('ADMIN')")
     @Operation(summary = "Cancel an event",
     description = "Transitions the event from published to cancelled state. Users will no longer be able to book the event.")
     @PutMapping(value = "/{eventId}/cancel", version = "1")

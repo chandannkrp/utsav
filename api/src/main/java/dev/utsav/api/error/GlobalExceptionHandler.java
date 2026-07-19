@@ -4,10 +4,13 @@ package dev.utsav.api.error;
 import dev.utsav.domain.exception.DomainException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.accept.InvalidApiVersionException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.nio.file.AccessDeniedException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -17,6 +20,12 @@ public class GlobalExceptionHandler {
         HttpStatus status = resolveStatus(ex.getCode());
         ApiError apiError = ApiError.of(ex.getCode(), ex.getMessage(), status.value());
         return ResponseEntity.status(status).body(apiError);
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ApiError> handleAccessDenied(AuthorizationDeniedException ex){
+        ApiError apiError = ApiError.of("ACCESS_DENIED", "You do not have permission to access this resource", HttpStatus.FORBIDDEN.value());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(apiError);
     }
 
     @ExceptionHandler(Exception.class)
